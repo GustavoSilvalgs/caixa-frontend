@@ -88,14 +88,14 @@ export default function CategoriasPage() {
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Categorias</h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-brand-dark">Categorias</h1>
+          <p className="text-brand-brown/70 text-sm mt-1">
             Gerencie as categorias de produtos
           </p>
         </div>
         <button
           onClick={() => abrirModal()}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          className="flex items-center gap-2 bg-brand-dark hover:bg-brand-teal text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
         >
           <Plus size={16} />
           Nova categoria
@@ -103,24 +103,24 @@ export default function CategoriasPage() {
       </div>
 
       {/* Tabela */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white rounded-xl shadow-sm border border-brand-tan/40 overflow-x-auto">
         {loading ? (
-          <div className="p-8 text-center text-gray-400">Carregando...</div>
+          <div className="p-8 text-center text-brand-brown/50">Carregando...</div>
         ) : categorias.length === 0 ? (
-          <div className="p-8 text-center text-gray-400">
+          <div className="p-8 text-center text-brand-brown/50">
             Nenhuma categoria cadastrada
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">
+              <tr className="border-b border-brand-tan/40">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Nome
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Status
                 </th>
-                <th className="text-right px-6 py-4 text-sm font-medium text-gray-500">
+                <th className="text-right px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Ações
                 </th>
               </tr>
@@ -129,9 +129,9 @@ export default function CategoriasPage() {
               {categorias.map((categoria) => (
                 <tr
                   key={categoria.id}
-                  className="border-b border-gray-50 last:border-0 hover:bg-gray-50"
+                  className="border-b border-brand-tan/20 last:border-0 hover:bg-brand-sand/30"
                 >
-                  <td className="px-6 py-4 text-sm text-gray-800 font-medium">
+                  <td className="px-6 py-4 text-sm text-brand-dark font-medium">
                     {categoria.nome}
                   </td>
                   <td className="px-6 py-4">
@@ -139,7 +139,7 @@ export default function CategoriasPage() {
                       className={`text-xs px-2 py-1 rounded-full font-medium ${
                         categoria.ativo
                           ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-500"
+                          : "bg-brand-sand/50 text-brand-brown/70"
                       }`}
                     >
                       {categoria.ativo ? "Ativa" : "Inativa"}
@@ -149,7 +149,7 @@ export default function CategoriasPage() {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => abrirModal(categoria)}
-                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                        className="p-2 text-brand-brown/50 hover:text-brand-teal hover:bg-brand-sand rounded-lg transition-colors"
                         title="Editar"
                       >
                         <Pencil size={16} />
@@ -159,7 +159,7 @@ export default function CategoriasPage() {
                         className={`p-2 rounded-lg transition-colors ${
                           categoria.ativo
                             ? "text-green-500 hover:text-red-500 hover:bg-red-50"
-                            : "text-gray-400 hover:text-green-500 hover:bg-green-50"
+                            : "text-brand-brown/50 hover:text-green-500 hover:bg-green-50"
                         }`}
                         title={categoria.ativo ? "Desativar" : "Ativar"}
                       >
@@ -182,11 +182,11 @@ export default function CategoriasPage() {
       {modalAberto && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">
+            <h2 className="text-lg font-bold text-brand-dark mb-4">
               {editando ? "Editar categoria" : "Nova categoria"}
             </h2>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-brand-brown mb-1">
                 Nome
               </label>
               <input
@@ -195,21 +195,21 @@ export default function CategoriasPage() {
                 onChange={(e) => setNome(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && salvar()}
                 placeholder="Ex: Bebidas"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                 autoFocus
               />
             </div>
             <div className="flex justify-end gap-3">
               <button
                 onClick={fecharModal}
-                className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                className="px-4 py-2 text-sm text-brand-brown hover:bg-brand-sand/50 rounded-lg transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={salvar}
                 disabled={salvando}
-                className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-lg transition-colors"
+                className="px-4 py-2 text-sm bg-brand-dark hover:bg-brand-teal disabled:opacity-50 text-white rounded-lg transition-colors"
               >
                 {salvando ? "Salvando..." : "Salvar"}
               </button>

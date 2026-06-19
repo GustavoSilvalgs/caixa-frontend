@@ -118,12 +118,12 @@ export default function UsuariosPage() {
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Usuários</h1>
-          <p className="text-gray-500 text-sm mt-1">Gerencie os operadores de caixa</p>
+          <h1 className="text-2xl font-bold text-brand-dark">Usuários</h1>
+          <p className="text-brand-brown/70 text-sm mt-1">Gerencie os operadores de caixa</p>
         </div>
         <button
           onClick={() => abrirModal()}
-          className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          className="flex items-center gap-2 bg-brand-dark hover:bg-brand-teal text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
         >
           <Plus size={16} />
           Novo usuário
@@ -131,28 +131,28 @@ export default function UsuariosPage() {
       </div>
 
       {/* Tabela */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white rounded-xl shadow-sm border border-brand-tan/40 overflow-x-auto">
         {loading ? (
-          <div className="p-8 text-center text-gray-400">Carregando...</div>
+          <div className="p-8 text-center text-brand-brown/50">Carregando...</div>
         ) : usuarios.length === 0 ? (
-          <div className="p-8 text-center text-gray-400">Nenhum usuário cadastrado</div>
+          <div className="p-8 text-center text-brand-brown/50">Nenhum usuário cadastrado</div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">Nome</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">Email</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">Perfil</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">Criado em</th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">Status</th>
-                <th className="text-right px-6 py-4 text-sm font-medium text-gray-500">Ações</th>
+              <tr className="border-b border-brand-tan/40">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">Nome</th>
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">Email</th>
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">Perfil</th>
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">Criado em</th>
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">Status</th>
+                <th className="text-right px-6 py-4 text-sm font-medium text-brand-brown/70">Ações</th>
               </tr>
             </thead>
             <tbody>
               {usuarios.map((usuario) => (
-                <tr key={usuario.id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-800">{usuario.nome}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{usuario.email}</td>
+                <tr key={usuario.id} className="border-b border-brand-tan/20 last:border-0 hover:bg-brand-sand/30">
+                  <td className="px-6 py-4 text-sm font-medium text-brand-dark">{usuario.nome}</td>
+                  <td className="px-6 py-4 text-sm text-brand-brown">{usuario.email}</td>
                   <td className="px-6 py-4">
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                       usuario.perfil === 'ADMIN'
@@ -162,12 +162,12 @@ export default function UsuariosPage() {
                       {usuario.perfil === 'ADMIN' ? 'Administrador' : 'Operador'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">
+                  <td className="px-6 py-4 text-sm text-brand-brown">
                     {usuario.criadoEm ? formatarData(usuario.criadoEm) : '—'}
                   </td>
                   <td className="px-6 py-4">
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                      usuario.ativo ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
+                      usuario.ativo ? 'bg-green-100 text-green-700' : 'bg-brand-sand/50 text-brand-brown/70'
                     }`}>
                       {usuario.ativo ? 'Ativo' : 'Inativo'}
                     </span>
@@ -176,7 +176,7 @@ export default function UsuariosPage() {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => abrirModal(usuario)}
-                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                        className="p-2 text-brand-brown/50 hover:text-brand-teal hover:bg-brand-sand rounded-lg transition-colors"
                       >
                         <Pencil size={16} />
                       </button>
@@ -185,7 +185,7 @@ export default function UsuariosPage() {
                         className={`p-2 rounded-lg transition-colors ${
                           usuario.ativo
                             ? 'text-green-500 hover:text-red-500 hover:bg-red-50'
-                            : 'text-gray-400 hover:text-green-500 hover:bg-green-50'
+                            : 'text-brand-brown/50 hover:text-green-500 hover:bg-green-50'
                         }`}
                       >
                         {usuario.ativo ? <ToggleRight size={20} /> : <ToggleLeft size={20} />}
@@ -203,36 +203,36 @@ export default function UsuariosPage() {
       {modalAberto && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">
+            <h2 className="text-lg font-bold text-brand-dark mb-4">
               {editando ? 'Editar usuário' : 'Novo usuário'}
             </h2>
 
             <div className="flex flex-col gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nome *</label>
+                <label className="block text-sm font-medium text-brand-brown mb-1">Nome *</label>
                 <input
                   name="nome"
                   value={form.nome}
                   onChange={handleChange}
                   placeholder="Nome completo"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                <label className="block text-sm font-medium text-brand-brown mb-1">Email *</label>
                 <input
                   name="email"
                   type="email"
                   value={form.email}
                   onChange={handleChange}
                   placeholder="email@exemplo.com"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-brand-brown mb-1">
                   Senha {editando ? '(deixe em branco para manter)' : '*'}
                 </label>
                 <input
@@ -241,17 +241,17 @@ export default function UsuariosPage() {
                   value={form.senha}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Perfil *</label>
+                <label className="block text-sm font-medium text-brand-brown mb-1">Perfil *</label>
                 <select
                   name="perfil"
                   value={form.perfil}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                 >
                   <option value="OPERADOR">Operador</option>
                   <option value="ADMIN">Administrador</option>
@@ -262,14 +262,14 @@ export default function UsuariosPage() {
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={fecharModal}
-                className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                className="px-4 py-2 text-sm text-brand-brown hover:bg-brand-sand/50 rounded-lg transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={salvar}
                 disabled={salvando}
-                className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-lg transition-colors"
+                className="px-4 py-2 text-sm bg-brand-dark hover:bg-brand-teal disabled:opacity-50 text-white rounded-lg transition-colors"
               >
                 {salvando ? 'Salvando...' : 'Salvar'}
               </button>

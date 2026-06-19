@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -15,8 +15,14 @@ const schema = z.object({
 
 export default function LoginPage() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, usuario } = useAuth()
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (usuario) {
+      navigate(usuario.perfil === 'ADMIN' ? '/admin' : '/pdv', { replace: true })
+    }
+  }, [usuario, navigate])
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(schema),
@@ -28,12 +34,8 @@ export default function LoginPage() {
       const response = await api.post('/api/auth/login', data)
       login(response.data)
       toast.success(`Bem-vindo, ${response.data.nome}!`)
-      if (response.data.perfil === 'ADMIN') {
-        navigate('/admin')
-      } else {
-        navigate('/pdv')
-      }
-    } catch (error) {
+      navigate(response.data.perfil === 'ADMIN' ? '/admin' : '/pdv')
+    } catch {
       toast.error('Email ou senha inválidos')
     } finally {
       setLoading(false)
@@ -41,29 +43,27 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-md p-8">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(135deg, #243757 0%, #3a5f6f 100%)' }}>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
 
-        {/* Logo */}
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-indigo-600 text-white rounded-2xl p-4 mb-4">
+          <div className="text-white rounded-2xl p-4 mb-4 shadow-lg" style={{ background: 'linear-gradient(135deg, #3a5f6f, #243757)' }}>
             <ShoppingCart size={36} />
           </div>
-          <h1 className="text-2xl font-bold text-gray-800">Sistema de Caixa</h1>
-          <p className="text-gray-500 text-sm mt-1">Faça login para continuar</p>
+          <h1 className="text-2xl font-bold text-brand-dark">Sistema de Caixa</h1>
+          <p className="text-brand-brown/70 text-sm mt-1">Faça login para continuar</p>
         </div>
 
-        {/* Formulário */}
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-brand-brown mb-1.5">
               Email
             </label>
             <input
               type="email"
               {...register('email')}
               placeholder="seu@email.com"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full border border-brand-tan rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal focus:border-transparent bg-brand-sand/30 transition"
             />
             {errors.email && (
               <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
@@ -71,14 +71,14 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-brand-brown mb-1.5">
               Senha
             </label>
             <input
               type="password"
               {...register('senha')}
               placeholder="••••••••"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full border border-brand-tan rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal focus:border-transparent bg-brand-sand/30 transition"
             />
             {errors.senha && (
               <p className="text-red-500 text-xs mt-1">{errors.senha.message}</p>
@@ -88,7 +88,8 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-medium py-2.5 rounded-lg flex items-center justify-center gap-2 transition-colors mt-2"
+            className="w-full text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md mt-2 disabled:opacity-60"
+            style={{ background: 'linear-gradient(135deg, #3a5f6f, #243757)' }}
           >
             <LogIn size={18} />
             {loading ? 'Entrando...' : 'Entrar'}

@@ -3,6 +3,7 @@ import AdminLayout from "../../components/layout/AdminLayout";
 import api from "../../services/api";
 import toast from "react-hot-toast";
 import { Plus, Pencil, ToggleLeft, ToggleRight } from "lucide-react";
+import ImageUpload from "../../components/ImageUpload";
 
 export default function ProdutosPage() {
   const [produtos, setProdutos] = useState([]);
@@ -90,8 +91,8 @@ export default function ProdutosPage() {
     if (
       !form.nome.trim() ||
       !form.categoriaId ||
-      !form.precoCusto ||
-      !form.precoVenda
+      form.precoCusto === "" ||
+      form.precoVenda === ""
     ) {
       toast.error("Preencha todos os campos obrigatórios");
       return;
@@ -144,8 +145,8 @@ export default function ProdutosPage() {
     <AdminLayout>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Produtos</h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-brand-dark">Produtos</h1>
+          <p className="text-brand-brown/70 text-sm mt-1">
             Gerencie o catálogo de produtos
           </p>
         </div>
@@ -155,15 +156,15 @@ export default function ProdutosPage() {
             onClick={() => setMostrarTodos(!mostrarTodos)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${
               mostrarTodos
-                ? "bg-gray-800 text-white border-gray-800"
-                : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                ? "bg-brand-dark text-white border-brand-dark"
+                : "bg-white text-brand-brown border-brand-tan hover:bg-brand-sand/30"
             }`}
           >
             {mostrarTodos ? "Mostrando todos" : "Somente ativos"}
           </button>
           <button
             onClick={() => abrirModal()}
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="flex items-center gap-2 bg-brand-dark hover:bg-brand-teal text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
           >
             <Plus size={16} />
             Novo produto
@@ -172,33 +173,33 @@ export default function ProdutosPage() {
       </div>
 
       {/* Tabela */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white rounded-xl shadow-sm border border-brand-tan/40 overflow-x-auto">
         {loading ? (
-          <div className="p-8 text-center text-gray-400">Carregando...</div>
+          <div className="p-8 text-center text-brand-brown/50">Carregando...</div>
         ) : produtos.length === 0 ? (
-          <div className="p-8 text-center text-gray-400">
+          <div className="p-8 text-center text-brand-brown/50">
             Nenhum produto cadastrado
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">
+              <tr className="border-b border-brand-tan/40">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Produto
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Categoria
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Preço venda
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Estoque
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-medium text-gray-500">
+                <th className="text-left px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Status
                 </th>
-                <th className="text-right px-6 py-4 text-sm font-medium text-gray-500">
+                <th className="text-right px-6 py-4 text-sm font-medium text-brand-brown/70">
                   Ações
                 </th>
               </tr>
@@ -207,25 +208,25 @@ export default function ProdutosPage() {
               {produtos.map((produto) => (
                 <tr
                   key={produto.id}
-                  className="border-b border-gray-50 last:border-0 hover:bg-gray-50"
+                  className="border-b border-brand-tan/20 last:border-0 hover:bg-brand-sand/30"
                 >
                   <td className="px-6 py-4">
-                    <p className="text-sm font-medium text-gray-800">
+                    <p className="text-sm font-medium text-brand-dark">
                       {produto.nome}
                     </p>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded-full">
+                    <span className="text-xs bg-brand-sand text-brand-dark px-2 py-1 rounded-full">
                       {produto.categoriaNome}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-800">
+                  <td className="px-6 py-4 text-sm text-brand-dark">
                     {formatarMoeda(produto.precoVenda)}
                   </td>
                   <td className="px-6 py-4">
                     <span
                       className={`text-sm font-medium ${
-                        produto.estoqueBaixo ? "text-red-600" : "text-gray-800"
+                        produto.estoqueBaixo ? "text-red-600" : "text-brand-dark"
                       }`}
                     >
                       {produto.estoqueAtual}
@@ -241,7 +242,7 @@ export default function ProdutosPage() {
                       className={`text-xs px-2 py-1 rounded-full font-medium ${
                         produto.ativo
                           ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-500"
+                          : "bg-brand-sand/50 text-brand-brown/70"
                       }`}
                     >
                       {produto.ativo ? "Ativo" : "Inativo"}
@@ -251,7 +252,7 @@ export default function ProdutosPage() {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => abrirModal(produto)}
-                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                        className="p-2 text-brand-brown/50 hover:text-brand-teal hover:bg-brand-sand rounded-lg transition-colors"
                       >
                         <Pencil size={16} />
                       </button>
@@ -260,7 +261,7 @@ export default function ProdutosPage() {
                         className={`p-2 rounded-lg transition-colors ${
                           produto.ativo
                             ? "text-green-500 hover:text-red-500 hover:bg-red-50"
-                            : "text-gray-400 hover:text-green-500 hover:bg-green-50"
+                            : "text-brand-brown/50 hover:text-green-500 hover:bg-green-50"
                         }`}
                       >
                         {produto.ativo ? (
@@ -282,13 +283,13 @@ export default function ProdutosPage() {
       {modalAberto && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">
+            <h2 className="text-lg font-bold text-brand-dark mb-4">
               {editando ? "Editar produto" : "Novo produto"}
             </h2>
 
             <div className="flex flex-col gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-brand-brown mb-1">
                   Nome *
                 </label>
                 <input
@@ -296,19 +297,19 @@ export default function ProdutosPage() {
                   value={form.nome}
                   onChange={handleChange}
                   placeholder="Ex: Coca-Cola Lata"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-brand-brown mb-1">
                   Categoria *
                 </label>
                 <select
                   name="categoriaId"
                   value={form.categoriaId}
                   onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                 >
                   <option value="">Selecione...</option>
                   {categorias.map((c) => (
@@ -321,7 +322,7 @@ export default function ProdutosPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-brand-brown mb-1">
                     Preço de custo *
                   </label>
                   <input
@@ -331,11 +332,11 @@ export default function ProdutosPage() {
                     value={form.precoCusto}
                     onChange={handleChange}
                     placeholder="0,00"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-brand-brown mb-1">
                     Preço de venda *
                   </label>
                   <input
@@ -345,14 +346,14 @@ export default function ProdutosPage() {
                     value={form.precoVenda}
                     onChange={handleChange}
                     placeholder="0,00"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-brand-brown mb-1">
                     Estoque atual
                   </label>
                   <input
@@ -361,11 +362,11 @@ export default function ProdutosPage() {
                     value={form.estoqueAtual}
                     onChange={handleChange}
                     placeholder="0"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-brand-brown mb-1">
                     Estoque mínimo
                   </label>
                   <input
@@ -374,21 +375,18 @@ export default function ProdutosPage() {
                     value={form.estoqueMinimo}
                     onChange={handleChange}
                     placeholder="0"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full border border-brand-tan rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  URL da imagem
+                <label className="block text-sm font-medium text-brand-brown mb-1">
+                  Imagem do produto
                 </label>
-                <input
-                  name="imagemUrl"
+                <ImageUpload
                   value={form.imagemUrl}
-                  onChange={handleChange}
-                  placeholder="https://..."
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  onChange={(url) => setForm({ ...form, imagemUrl: url })}
                 />
               </div>
             </div>
@@ -396,14 +394,14 @@ export default function ProdutosPage() {
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={fecharModal}
-                className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                className="px-4 py-2 text-sm text-brand-brown hover:bg-brand-sand/50 rounded-lg transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={salvar}
                 disabled={salvando}
-                className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-lg transition-colors"
+                className="px-4 py-2 text-sm bg-brand-dark hover:bg-brand-teal disabled:opacity-50 text-white rounded-lg transition-colors"
               >
                 {salvando ? "Salvando..." : "Salvar"}
               </button>
