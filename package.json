@@ -11,5 +11,8 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.0",
     "tailwindcss": "^4.3.0"
-  }
+  },
+    "optionalDependencies": {
+          "lightningcss-linux-x64-gnu": "1.32.0"
+    }
 }
